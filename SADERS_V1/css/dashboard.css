@@ -1,0 +1,738 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f5f7;
+    color: #344054;
+}
+
+
+/* =========================
+   CONTENEDOR PRINCIPAL
+========================= */
+
+.contenedor-dashboard {
+    min-height: 100vh;
+    display: flex;
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    width: 195px;
+    min-height: 100vh;
+
+    background: #172033;
+
+    padding: 25px 16px;
+
+    display: flex;
+    flex-direction: column;
+
+    color: white;
+}
+
+
+/* LOGO */
+
+.logo-sidebar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    margin-bottom: 35px;
+}
+
+
+.logo-icono {
+    width: 25px;
+    height: 25px;
+
+    background: #3566b8;
+
+    border-radius: 6px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 11px;
+
+    overflow: hidden;
+}
+
+
+/* Imagen dentro de espacios de marca (logo, icono central, escudo) */
+
+.img-marca {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+}
+
+
+/* MENÚ */
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 10px 12px;
+
+    color: #9aa4b5;
+
+    text-decoration: none;
+
+    border-radius: 6px;
+
+    font-size: 12px;
+
+    transition: 0.3s;
+}
+
+
+.menu-item i {
+    width: 15px;
+}
+
+
+.menu-item:hover {
+    background: #263248;
+    color: white;
+}
+
+
+.menu-item.activo {
+    background: #344258;
+    color: white;
+}
+
+
+/* USUARIO */
+
+.usuario {
+    margin-top: auto;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px;
+
+    background: #222d42;
+
+    border-radius: 8px;
+}
+
+
+.foto-usuario {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 50%;
+
+    background: #697586;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 13px;
+
+    overflow: hidden;
+
+    flex-shrink: 0;
+}
+
+.img-foto-usuario {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.usuario h4 {
+    font-size: 10px;
+    margin-bottom: 3px;
+}
+
+
+.usuario span {
+    color: #9aa4b5;
+    font-size: 9px;
+}
+
+
+/* =========================
+   CONTENIDO
+========================= */
+
+.contenido {
+    flex: 1;
+
+    padding: 22px;
+
+    max-width: calc(100% - 195px);
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header-dashboard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    margin-bottom: 20px;
+}
+
+
+.header-dashboard h1 {
+    font-size: clamp(17px, 2vw, 21px);
+    letter-spacing: 0.5px;
+}
+
+
+.header-dashboard p {
+    margin-top: 3px;
+
+    color: #8b95a5;
+
+    font-size: 10px;
+}
+
+
+/* ACCIONES */
+
+.acciones-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* BUSCADOR */
+
+.buscador {
+    width: 180px;
+    height: 30px;
+
+    position: relative;
+}
+
+
+.buscador i {
+    position: absolute;
+
+    top: 50%;
+    left: 10px;
+
+    transform: translateY(-50%);
+
+    color: #697586;
+
+    font-size: 11px;
+}
+
+
+.buscador input {
+    width: 100%;
+    height: 100%;
+
+    padding-left: 28px;
+
+    border: 1px solid #d8dde5;
+
+    border-radius: 6px;
+
+    background: white;
+
+    outline: none;
+
+    font-size: 10px;
+}
+
+
+/* NOTIFICACIONES */
+
+.notificaciones {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+
+    border: 1px solid #d8dde5;
+    border-radius: 8px;
+
+    background: white;
+
+    position: relative;
+
+    cursor: pointer;
+}
+
+
+.punto-notificacion {
+    width: 6px;
+    height: 6px;
+
+    position: absolute;
+
+    top: 5px;
+    right: 5px;
+
+    border-radius: 50%;
+
+    background: #d92d20;
+}
+
+
+/* =========================
+   ESTADÍSTICAS
+========================= */
+
+.estadisticas {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 10px;
+
+    margin-bottom: 17px;
+}
+
+
+.tarjeta-estadistica {
+    min-height: 75px;
+
+    padding: 14px;
+
+    background: white;
+
+    border: 1px solid #d9dee7;
+    border-radius: 10px;
+}
+
+
+.titulo-tarjeta {
+    display: flex;
+    justify-content: space-between;
+
+    color: #697586;
+
+    font-size: 10px;
+}
+
+
+.titulo-tarjeta i {
+    color: #3566b8;
+}
+
+
+.tarjeta-estadistica h2 {
+    margin-top: 8px;
+
+    font-size: clamp(19px, 2vw, 24px);
+}
+
+
+.alerta h2,
+.alerta .titulo-tarjeta i {
+    color: #d92d20;
+}
+
+
+.seguimiento h2,
+.seguimiento .titulo-tarjeta i {
+    color: #d97706;
+}
+
+
+/* =========================
+   CONTENIDO CENTRAL
+========================= */
+
+.contenido-central {
+    display: grid;
+
+    grid-template-columns: 1.2fr 1fr;
+
+    gap: 17px;
+}
+
+
+/* PANELES */
+
+.panel {
+    min-height: 450px;
+
+    padding: 16px;
+
+    background: white;
+
+    border: 1px solid #d9dee7;
+    border-radius: 12px;
+}
+
+
+/* TÍTULO PANEL */
+
+.titulo-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    margin-bottom: 14px;
+}
+
+
+.titulo-panel h2 {
+    font-size: 14px;
+}
+
+
+.titulo-panel a {
+    color: #3566b8;
+
+    text-decoration: none;
+
+    font-size: 10px;
+}
+
+
+.titulo-panel > i {
+    color: #d92d20;
+}
+
+
+/* =========================
+   TABLA
+========================= */
+
+.tabla-contenedor {
+    overflow-x: auto;
+}
+
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: 10px;
+}
+
+
+thead {
+    background: #f2f4f7;
+}
+
+
+th {
+    text-align: left;
+
+    padding: 9px;
+
+    color: #697586;
+
+    font-weight: bold;
+
+    white-space: nowrap;
+}
+
+
+td {
+    padding: 10px 9px;
+
+    border-bottom: 1px solid #eaecf0;
+
+    white-space: nowrap;
+}
+
+
+td:first-child {
+    font-weight: bold;
+}
+
+
+/* RIESGO */
+
+.riesgo {
+    display: inline-block;
+
+    min-width: 76px;
+
+    padding: 4px 8px;
+
+    text-align: center;
+
+    border-radius: 5px;
+
+    font-size: 9px;
+    font-weight: bold;
+}
+
+
+.riesgo.alto {
+    color: #c23a32;
+    background: #fbeaea;
+}
+
+
+.riesgo.moderado {
+    color: #c47a12;
+    background: #fff6e5;
+}
+
+
+.riesgo.bajo {
+    color: #2f7d55;
+    background: #e8f4ed;
+}
+
+
+/* BOTÓN ABRIR */
+
+.btn-abrir {
+    padding: 5px 16px;
+
+    border: 1px solid #d8dde5;
+    border-radius: 5px;
+
+    background: white;
+
+    color: #475467;
+
+    font-size: 10px;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   PACIENTES ATENCIÓN
+========================= */
+
+.paciente-alerta {
+    margin-bottom: 10px;
+
+    padding: 12px;
+
+    border: 1px solid #e1e5eb;
+    border-radius: 10px;
+}
+
+
+.paciente-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    margin-bottom: 10px;
+}
+
+
+.paciente-header > div {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+
+.iniciales {
+    font-size: 10px;
+    font-weight: bold;
+
+    color: #697586;
+}
+
+
+.paciente-header strong {
+    font-size: 10px;
+
+    color: #697586;
+}
+
+
+.paciente-alerta p {
+    color: #475467;
+
+    font-size: 10px;
+
+    line-height: 1.5;
+
+    margin-bottom: 10px;
+}
+
+
+.detalle {
+    display: flex;
+    justify-content: space-between;
+
+    color: #3566b8;
+
+    font-size: 10px;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   AVISO CLÍNICO
+========================= */
+
+.aviso-clinico {
+    margin-top: 17px;
+
+    padding: 12px;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+
+    border: 1px solid #f1dfb6;
+    border-radius: 8px;
+
+    background: #fffaf0;
+
+    color: #9a6420;
+
+    font-size: 10px;
+
+    line-height: 1.5;
+}
+
+
+.aviso-clinico i {
+    margin-top: 2px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1100px) {
+
+    .estadisticas {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 950px) {
+
+    .contenido-central {
+        grid-template-columns: 1fr;
+    }
+
+
+    .contenido {
+        max-width: none;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .sidebar {
+        width: 70px;
+
+        padding: 20px 10px;
+    }
+
+
+    .logo-sidebar span,
+    .menu-item span,
+    .usuario div:last-child {
+        display: none;
+    }
+
+
+    .menu-item {
+        justify-content: center;
+    }
+
+
+    .usuario {
+        justify-content: center;
+    }
+
+
+    .contenido {
+        padding: 15px;
+    }
+
+
+    .header-dashboard {
+        flex-direction: column;
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+
+
+    .acciones-header {
+        width: 100%;
+    }
+
+
+    .buscador {
+        width: 100%;
+        flex: 1;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .estadisticas {
+        grid-template-columns: 1fr;
+    }
+
+
+    table {
+        font-size: 9px;
+    }
+
+
+    th, td {
+        padding: 6px;
+    }
+
+
+    .paciente-alerta {
+        padding: 10px;
+    }
+
+}

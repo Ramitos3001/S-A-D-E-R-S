@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SADER - Iniciar Sesión</title>
+
+    <link rel="stylesheet" href="css/login.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- =================================
+         PANTALLA DE CARGA
+    ================================== -->
+
+    <div class="pantalla-carga" id="pantallaCarga">
+
+        <div class="particulas" id="particulas"></div>
+
+        <div class="escudo-carga">
+
+            <div class="onda onda-1"></div>
+            <div class="onda onda-2"></div>
+            <div class="onda onda-3"></div>
+
+            <div class="escudo">
+
+                <i class="fa-solid fa-shield-heart"></i>
+
+            </div>
+
+        </div>
+
+
+        <h2>Validando acceso</h2>
+
+        <p>Iniciando entorno seguro...</p>
+
+
+        <div class="barra-carga">
+
+            <div class="progreso"></div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================
+         LOGIN
+    ================================== -->
+
+    <main class="contenedor-login">
+
+
+        <!-- IZQUIERDA -->
+
+        <section class="panel-izquierdo">
+
+
+            <!-- LOGO -->
+
+            <div class="logo">
+
+                <!--
+                    ESPACIO PARA EL LOGO REAL
+
+                    Cuando tengas el logo:
+
+                    <img src="assets/img/logo-sader.png"
+                         alt="SADER">
+
+                -->
+
+                <div class="espacio-logo">
+
+            
+                 <img src="SADER.png" alt="SADER" class="img-marca">
+
+                </div>
+
+                <span>SADER</span>
+
+            </div>
+
+
+
+            <!-- INFORMACIÓN -->
+
+            <div class="informacion-principal">
+
+                <h1>
+                    Acompañamiento profesional
+                    guiado por un
+                    <strong>ASISTENTE virtual</strong>
+                </h1>
+
+
+                <p>
+                    Sistema de Apoyo para la Evaluación del Riesgo de Suicidio.
+                    Una herramienta diseñada para potenciar la precisión de tu
+                    juicio clínico, sin reemplazarlo.
+                </p>
+
+
+
+                <!-- ANIMACIÓN -->
+
+                <div class="elemento-visual">
+
+                    <div class="circulo circulo-1"></div>
+
+                    <div class="circulo circulo-2"></div>
+
+                    <div class="circulo circulo-3"></div>
+
+
+                    <div class="icono-central">
+
+                        <i class="fa-solid fa-shield-heart"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SEGURIDAD -->
+
+            <div class="seguridad">
+
+                <i class="fa-solid fa-lock"></i>
+
+                <span>
+                    Entorno seguro cifrado extremo a extremo • HIPAA Compliant
+                </span>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================
+             DERECHA
+        ================================== -->
+
+        <section class="panel-derecho">
+
+
+            <div class="formulario-contenedor">
+
+
+                <div class="encabezado-login">
+
+                    <h2>Iniciar Sesión</h2>
+
+                    <p>
+                        Ingresa tus credenciales de profesional de la salud
+                    </p>
+
+                </div>
+
+
+
+                <form id="formLogin">
+
+
+                    <!-- CORREO -->
+
+                    <div class="grupo-input">
+
+                        <label for="correo">
+                            Correo Electrónico Profesional
+                        </label>
+
+
+                        <div class="input-icono">
+
+                            <i class="fa-regular fa-envelope"></i>
+
+                            <input
+                                type="email"
+                                id="correo"
+                                placeholder="ejemplo@sader.gov.co"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="grupo-input">
+
+                        <label for="password">
+                            Contraseña
+                        </label>
+
+
+                        <div class="input-icono">
+
+                            <i class="fa-solid fa-key"></i>
+
+                            <input
+                                type="password"
+                                id="password"
+                                placeholder="••••••••••"
+                                required
+                            >
+
+
+                            <i
+                                class="fa-regular fa-eye boton-ojo"
+                                id="mostrarPassword">
+                            </i>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- OPCIONES -->
+
+                    <div class="opciones-login">
+
+                        <label class="recordar">
+
+                            <input type="checkbox">
+
+                            <span>Recordar sesión</span>
+
+                        </label>
+
+
+                        <a href="#">
+                            ¿Olvidé mi contraseña?
+                        </a>
+
+                    </div>
+
+
+
+                    <!-- BOTÓN -->
+
+                    <button
+                        type="submit"
+                        class="btn-login"
+                        id="btnLogin">
+
+                        <span>Iniciar Sesión</span>
+
+                    </button>
+
+
+                </form>
+
+
+
+                <!-- AVISO -->
+
+                <div class="aviso-profesional">
+
+                    <i class="fa-solid fa-circle-info"></i>
+
+                    <p>
+                        Acceso exclusivo para profesionales de salud autorizados
+                        por el ministerio de salud y comités de ética.
+                    </p>
+
+                </div>
+
+
+
+                <!-- FOOTER -->
+
+                <div class="footer-login">
+
+                    <span>Política de Privacidad</span>
+
+                    <span>•</span>
+
+                    <span>Soporte Técnico</span>
+
+                    <span>•</span>
+
+                    <span>v2.4.0</span>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <script src="js/login.js"></script>
+
+</body>
+
+</html>

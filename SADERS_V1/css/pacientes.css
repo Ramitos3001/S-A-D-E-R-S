@@ -1,0 +1,109 @@
+/* =========================
+   PAGINA PACIENTES
+========================= */
+
+.resumen-pacientes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 17px;
+}
+
+.lista-pacientes {
+    min-height: auto;
+}
+
+.titulo-panel > div:first-child {
+    min-width: 220px;
+}
+
+.subtitulo {
+    margin-top: 5px;
+    color: #8b95a5;
+    font-size: 10px;
+}
+
+.btn-principal {
+    border: 0;
+    border-radius: 6px;
+    padding: 9px 13px;
+    background: #3566b8;
+    color: white;
+    font-size: 10px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.btn-principal:hover {
+    background: #2d579d;
+}
+
+.filtros {
+    display: flex;
+    gap: 7px;
+    margin-bottom: 13px;
+    flex-wrap: wrap;
+}
+
+.filtro {
+    border: 1px solid #d8dde5;
+    background: white;
+    color: #697586;
+    padding: 6px 11px;
+    border-radius: 5px;
+    font-size: 9px;
+    cursor: pointer;
+}
+
+.filtro:hover,
+.filtro.activo {
+    background: #eef4ff;
+    color: #3566b8;
+    border-color: #b9cbea;
+}
+
+.estado {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 9px;
+    font-weight: bold;
+}
+
+.estado.activo {
+    color: #2f7d55;
+    background: #e8f4ed;
+}
+
+.estado.seguimiento {
+    color: #c47a12;
+    background: #fff6e5;
+}
+
+.btn-accion {
+    border: 1px solid #d8dde5;
+    background: white;
+    color: #3566b8;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 9px;
+    cursor: pointer;
+}
+
+.btn-accion:hover {
+    background: #f5f8fd;
+}
+
+.sin-resultados {
+    display: none;
+    text-align: center;
+    padding: 30px;
+    color: #8b95a5;
+    font-size: 11px;
+}
+
+@media (max-width: 800px) {
+    .resumen-pacientes {
+        grid-template-columns: 1fr;
+    }
+}

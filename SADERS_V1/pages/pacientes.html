@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SADER - Pacientes</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/pacientes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+<div class="contenedor-dashboard">
+
+    <aside class="sidebar">
+        <div class="logo-sidebar">
+            <div class="logo-icono"><i class="fa-regular fa-heart"></i></div>
+            <span>SADER</span>
+        </div>
+
+        <nav class="menu">
+            <a href="dashboard.html" class="menu-item">
+                <i class="fa-solid fa-table-cells-large"></i><span>Dashboard</span>
+            </a>
+            <a href="pacientes.html" class="menu-item activo">
+                <i class="fa-solid fa-users"></i><span>Pacientes</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fa-regular fa-clipboard"></i><span>Evaluaciones</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fa-regular fa-clock"></i><span>Seguimiento</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-chart-column"></i><span>Reportes</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-gear"></i><span>Configuración</span>
+            </a>
+        </nav>
+
+        <div class="usuario">
+            <div class="foto-usuario">
+                <img src="img/DR GUZMAN.PNG" alt="Dr. Guzman Bololo" class="img-foto-usuario">
+            </div>
+            <div>
+                <h4>DR. GUZMAN BOLOLO</h4>
+                <span>Psicólogo Clínico</span>
+            </div>
+        </div>
+    </aside>
+
+    <main class="contenido">
+        <header class="header-dashboard">
+            <div>
+                <h1>PACIENTES</h1>
+                <p>Gestión y seguimiento de pacientes registrados</p>
+            </div>
+
+            <div class="acciones-header">
+                <div class="buscador">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input id="buscarPaciente" type="text" placeholder="Buscar por iniciales...">
+                </div>
+                <button class="notificaciones" title="Notificaciones">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="punto-notificacion"></span>
+                </button>
+            </div>
+        </header>
+
+        <section class="resumen-pacientes">
+            <div class="tarjeta-estadistica">
+                <div class="titulo-tarjeta"><span>Total de pacientes</span><i class="fa-solid fa-users"></i></div>
+                <h2 id="totalPacientes">42</h2>
+            </div>
+            <div class="tarjeta-estadistica">
+                <div class="titulo-tarjeta"><span>Pacientes activos</span><i class="fa-solid fa-user-check"></i></div>
+                <h2>38</h2>
+            </div>
+            <div class="tarjeta-estadistica alerta">
+                <div class="titulo-tarjeta"><span>Requieren atención</span><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <h2>3</h2>
+            </div>
+        </section>
+
+        <section class="panel lista-pacientes">
+            <div class="titulo-panel">
+                <div>
+                    <h2>Lista de pacientes</h2>
+                    <p class="subtitulo">Consulta la información básica y el estado actual de cada paciente.</p>
+                </div>
+                <button class="btn-principal" id="btnNuevo">
+                    <i class="fa-solid fa-plus"></i> Nuevo paciente
+                </button>
+            </div>
+
+            <div class="filtros">
+                <button class="filtro activo" data-filter="todos">Todos</button>
+                <button class="filtro" data-filter="alto">Alto riesgo</button>
+                <button class="filtro" data-filter="moderado">Moderado</button>
+                <button class="filtro" data-filter="bajo">Bajo</button>
+            </div>
+
+            <div class="tabla-contenedor">
+                <table id="tablaPacientes">
+                    <thead>
+                        <tr>
+                            <th>Paciente</th>
+                            <th>Edad</th>
+                            <th>Última evaluación</th>
+                            <th>Nivel de riesgo</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-riesgo="alto">
+                            <td><strong>M.R.</strong></td><td>22 años</td><td>15 Oct 2024</td>
+                            <td><span class="riesgo alto">Alto</span></td><td><span class="estado activo">Activo</span></td>
+                            <td><button class="btn-accion">Ver perfil</button></td>
+                        </tr>
+                        <tr data-riesgo="moderado">
+                            <td><strong>J.C.</strong></td><td>27 años</td><td>14 Oct 2024</td>
+                            <td><span class="riesgo moderado">Moderado</span></td><td><span class="estado activo">Activo</span></td>
+                            <td><button class="btn-accion">Ver perfil</button></td>
+                        </tr>
+                        <tr data-riesgo="bajo">
+                            <td><strong>L.G.</strong></td><td>19 años</td><td>14 Oct 2024</td>
+                            <td><span class="riesgo bajo">Bajo</span></td><td><span class="estado activo">Activo</span></td>
+                            <td><button class="btn-accion">Ver perfil</button></td>
+                        </tr>
+                        <tr data-riesgo="moderado">
+                            <td><strong>S.M.</strong></td><td>25 años</td><td>12 Oct 2024</td>
+                            <td><span class="riesgo moderado">Moderado</span></td><td><span class="estado seguimiento">Seguimiento</span></td>
+                            <td><button class="btn-accion">Ver perfil</button></td>
+                        </tr>
+                        <tr data-riesgo="bajo">
+                            <td><strong>F.A.</strong></td><td>30 años</td><td>10 Oct 2024</td>
+                            <td><span class="riesgo bajo">Bajo</span></td><td><span class="estado activo">Activo</span></td>
+                            <td><button class="btn-accion">Ver perfil</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="sinResultados" class="sin-resultados">No se encontraron pacientes.</div>
+            </div>
+        </section>
+
+        <div class="aviso-clinico">
+            <i class="fa-solid fa-shield-heart"></i>
+            <span>La información mostrada es de apoyo para el profesional. El nivel de riesgo es una señal orientativa y no reemplaza la valoración clínica.</span>
+        </div>
+    </main>
+</div>
+
+<script src="../JS/pacientes.js"></script>
+</body>
+</html>

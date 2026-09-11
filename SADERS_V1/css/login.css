@@ -1,0 +1,962 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: #f4f5f7;
+
+    color: #1f2937;
+
+    overflow: hidden;
+}
+
+
+/* =====================================
+   LOGIN PRINCIPAL
+===================================== */
+
+.contenedor-login {
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    display: flex;
+}
+
+
+/* =====================================
+   PANEL IZQUIERDO
+===================================== */
+
+.panel-izquierdo {
+    width: 50%;
+    min-height: 100vh;
+    padding: clamp(30px, 6vw, 65px) clamp(30px, 7vw, 70px);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(120deg, #18283c 0%, #116e68 100%);
+}
+
+/* =====================================
+   LOGO
+===================================== */
+
+.logo {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    font-size: 27px;
+
+    font-weight: bold;
+}
+
+
+
+
+.espacio-logo {
+    width: 120px;
+    height: 120px;
+    border-radius: 11px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    padding: 6px;
+}
+
+.img-marca {
+    width: 90%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* =====================================
+   INFORMACIÓN
+===================================== */
+
+.informacion-principal {
+
+    margin-top: 125px;
+}
+
+
+.informacion-principal h1 {
+    max-width: 680px;
+    font-size: clamp(24px, 3vw, 38px);
+    line-height: 1.16;
+    margin-bottom: 23px;
+}
+
+.informacion-principal h1 strong {
+
+    font-weight: 700;
+}
+
+
+.informacion-principal p {
+    max-width: 620px;
+    color: #b8c2cf;
+    font-size: clamp(14px, 1.3vw, 17px);
+    line-height: 1.6;
+}
+
+
+/* =====================================
+   ELEMENTO VISUAL
+===================================== */
+
+.elemento-visual {
+    width: 100%;
+    height: clamp(180px, 25vw, 270px);
+    margin-top: 45px;
+    position: relative;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.035);
+    overflow: hidden;
+}
+
+
+/* =====================================
+   CÍRCULOS
+===================================== */
+
+.circulo {
+
+    position: absolute;
+
+    border-radius: 50%;
+
+    top: 50%;
+
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+}
+
+
+.circulo-1 {
+
+    width: 270px;
+
+    height: 270px;
+
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+
+.circulo-2 {
+
+    width: 210px;
+
+    height: 210px;
+
+    border: 1px solid rgba(255,255,255,0.07);
+}
+
+
+.circulo-3 {
+
+    width: 150px;
+
+    height: 150px;
+
+    border: 1px solid #3675f1;
+
+    animation: pulso 3s infinite;
+}
+
+
+@keyframes pulso {
+
+    0%, 100% {
+
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+
+        opacity: 0.7;
+    }
+
+    50% {
+
+        transform:
+            translate(-50%, -50%)
+            scale(1.08);
+
+        opacity: 1;
+    }
+}
+
+
+/* =====================================
+   ESCUDO
+===================================== */
+
+.icono-central {
+
+    width: 58px;
+
+    height: 58px;
+
+    position: absolute;
+
+    top: 50%;
+
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background: #2864dc;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    box-shadow:
+        0 0 25px rgba(40,100,220,0.35);
+
+    font-size: 22px;
+    
+}
+
+.img-marca {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+}
+
+
+/* =====================================
+   SEGURIDAD
+===================================== */
+
+.seguridad {
+
+    margin-top: auto;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    color: #a8b2c0;
+
+    font-size: 13px;
+}
+
+
+/* =====================================
+   PANEL DERECHO
+===================================== */
+
+.panel-derecho {
+
+    width: 50%;
+
+    min-height: 100vh;
+
+    background: #fafafa;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+
+/* =====================================
+   FORMULARIO
+===================================== */
+
+.formulario-contenedor {
+    width: min(470px, 90%);
+}
+
+.encabezado-login h2 {
+    font-size: clamp(24px, 3vw, 34px);
+    margin-bottom: 11px;
+    color: #1f2937;
+}
+
+/* =====================================
+   ENCABEZADO
+===================================== */
+
+.encabezado-login {
+
+    margin-bottom: 38px;
+}
+
+
+.encabezado-login h2 {
+
+    font-size: 34px;
+
+    margin-bottom: 11px;
+
+    color: #1f2937;
+}
+
+
+.encabezado-login p {
+
+    color: #697586;
+
+    font-size: 15px;
+}
+
+
+/* =====================================
+   INPUTS
+===================================== */
+
+.grupo-input {
+
+    margin-bottom: 25px;
+}
+
+
+.grupo-input label {
+
+    display: block;
+
+    margin-bottom: 10px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+}
+
+
+.input-icono {
+
+    position: relative;
+}
+
+
+.input-icono input {
+
+    width: 100%;
+
+    height: 56px;
+
+    padding: 0 48px;
+
+    border: 1px solid #d6d9de;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    background: white;
+
+    font-size: 15px;
+
+    transition: 0.2s;
+}
+
+
+.input-icono input:focus {
+
+    border-color: #2864dc;
+
+    box-shadow:
+        0 0 0 4px rgba(40,100,220,0.08);
+}
+
+
+.input-icono i:first-child {
+
+    position: absolute;
+
+    left: 16px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #697586;
+
+    font-size: 16px;
+}
+
+
+.boton-ojo {
+
+    position: absolute;
+
+    right: 17px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #697586;
+
+    cursor: pointer;
+
+    font-size: 16px;
+}
+
+
+/* =====================================
+   OPCIONES
+===================================== */
+
+.opciones-login {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 28px;
+
+    font-size: 13px;
+}
+
+
+.recordar {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: #697586;
+}
+
+
+.recordar input {
+
+    width: 16px;
+
+    height: 16px;
+
+    accent-color: #2864dc;
+}
+
+
+.opciones-login a {
+
+    color: #2864dc;
+
+    text-decoration: none;
+
+    font-weight: 500;
+}
+
+
+/* =====================================
+   BOTÓN LOGIN
+===================================== */
+
+.btn-login {
+
+    width: 100%;
+
+    height: 56px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: #2864dc;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+.btn-login:hover {
+
+    background: #2056c2;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 7px 18px rgba(40,100,220,0.2);
+}
+
+
+.btn-login.cargando {
+
+    pointer-events: none;
+
+    background: #2056c2;
+}
+
+
+/* =====================================
+   AVISO
+===================================== */
+
+.aviso-profesional {
+
+    margin-top: 105px;
+
+    padding: 17px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 12px;
+
+    border-radius: 9px;
+
+    background: #eaf0fb;
+
+    color: #42618d;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+
+.aviso-profesional i {
+
+    margin-top: 2px;
+
+    font-size: 14px;
+}
+
+
+/* =====================================
+   FOOTER
+===================================== */
+
+.footer-login {
+
+    margin-top: 30px;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    color: #7d8794;
+
+    font-size: 11px;
+}
+
+
+/* =====================================
+   PANTALLA DE CARGA
+===================================== */
+
+.pantalla-carga {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #173a48 0%,
+            #101b2b 55%,
+            #080f1b 100%
+        );
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    color: white;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition: 0.5s;
+}
+
+
+.pantalla-carga.activa {
+
+    opacity: 1;
+
+    visibility: visible;
+}
+
+
+/* =====================================
+   PARTÍCULAS
+===================================== */
+
+.particulas {
+
+    position: absolute;
+
+    inset: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+}
+
+
+.particula {
+
+    position: absolute;
+
+    width: 3px;
+
+    height: 3px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.65);
+
+    animation:
+        subirParticula 2.8s linear forwards;
+}
+
+
+@keyframes subirParticula {
+
+    0% {
+
+        transform:
+            translateY(80px)
+            scale(0);
+
+        opacity: 0;
+    }
+
+    20% {
+
+        opacity: 1;
+    }
+
+    100% {
+
+        transform:
+            translateY(-300px)
+            scale(1);
+
+        opacity: 0;
+    }
+}
+
+
+/* =====================================
+   ESCUDO DE CARGA
+===================================== */
+
+.escudo-carga {
+
+    width: 190px;
+
+    height: 190px;
+
+    position: relative;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+}
+
+
+.escudo {
+
+    width: 75px;
+
+    height: 75px;
+
+    border-radius: 50%;
+
+    background: #2864dc;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    font-size: 29px;
+
+    z-index: 5;
+
+    box-shadow:
+        0 0 30px rgba(40,100,220,0.5);
+
+    animation:
+        aparecerEscudo 0.8s ease,
+        respirar 2s ease-in-out infinite;
+}
+
+
+@keyframes aparecerEscudo {
+
+    from {
+
+        transform: scale(0);
+
+        opacity: 0;
+    }
+
+    to {
+
+        transform: scale(1);
+
+        opacity: 1;
+    }
+}
+
+
+@keyframes respirar {
+
+    0%, 100% {
+
+        box-shadow:
+            0 0 25px rgba(40,100,220,0.4);
+    }
+
+    50% {
+
+        box-shadow:
+            0 0 50px rgba(40,100,220,0.75);
+    }
+}
+
+
+/* =====================================
+   ONDAS
+===================================== */
+
+.onda {
+
+    position: absolute;
+
+    top: 50%;
+
+    left: 50%;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(71,139,255,0.4);
+
+    transform: translate(-50%, -50%);
+
+    animation:
+        expandirOnda 2.5s ease-out infinite;
+}
+
+
+.onda-1 {
+
+    width: 100px;
+
+    height: 100px;
+}
+
+
+.onda-2 {
+
+    width: 140px;
+
+    height: 140px;
+
+    animation-delay: 0.5s;
+}
+
+
+.onda-3 {
+
+    width: 180px;
+
+    height: 180px;
+
+    animation-delay: 1s;
+}
+
+
+@keyframes expandirOnda {
+
+    0% {
+
+        opacity: 0.8;
+
+        transform:
+            translate(-50%, -50%)
+            scale(0.7);
+    }
+
+    100% {
+
+        opacity: 0;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1.25);
+    }
+}
+
+
+/* =====================================
+   TEXTO CARGA
+===================================== */
+
+.pantalla-carga h2 {
+
+    margin-top: 10px;
+
+    font-size: 24px;
+
+    letter-spacing: 0.3px;
+}
+
+
+.pantalla-carga p {
+
+    margin-top: 8px;
+
+    color: #9daaba;
+
+    font-size: 13px;
+}
+
+
+/* =====================================
+   BARRA CARGA
+===================================== */
+
+.barra-carga {
+
+    width: 260px;
+
+    height: 4px;
+
+    margin-top: 25px;
+
+    background: rgba(255,255,255,0.12);
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+
+.progreso {
+
+    width: 0%;
+
+    height: 100%;
+
+    background: #4280ff;
+
+    animation:
+        cargar 1.7s ease forwards;
+}
+
+
+@keyframes cargar {
+
+    0% {
+
+        width: 0%;
+    }
+
+    40% {
+
+        width: 45%;
+    }
+
+    75% {
+
+        width: 75%;
+    }
+
+    100% {
+
+        width: 100%;
+    }
+}
+
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media (max-width: 1000px) {
+
+    .panel-izquierdo {
+
+        padding: 45px;
+    }
+
+    .informacion-principal h1 {
+
+        font-size: 31px;
+    }
+
+    .formulario-contenedor {
+
+        width: 400px;
+    }
+
+}
+
+
+@media (max-width: 750px) {
+
+    .panel-izquierdo {
+
+        display: none;
+    }
+
+    .panel-derecho {
+
+        width: 100%;
+    }
+
+    .formulario-contenedor {
+
+        width: 85%;
+    }
+
+}

@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SADER - Dashboard</title>
+
+    <link rel="stylesheet" href="../css/dashboard.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+
+<body>
+
+
+<div class="contenedor-dashboard">
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+
+        <!-- LOGO -->
+
+        <div class="logo-sidebar">
+
+            <div class="logo-icono">
+                <i class="fa-regular fa-heart"></i>
+            </div>
+
+            <span>SADER</span>
+
+        </div>
+
+
+
+        <!-- MENÚ -->
+
+        <nav class="menu">
+
+            <a href="#" class="menu-item activo">
+
+                <i class="fa-solid fa-table-cells-large"></i>
+
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a href="pacientes.html" class="menu-item">
+
+                <i class="fa-solid fa-users"></i>
+
+                <span>Pacientes</span>
+
+            </a>
+
+
+            <a href="#" class="menu-item">
+
+                <i class="fa-regular fa-clipboard"></i>
+
+                <span>Evaluaciones</span>
+
+            </a>
+
+
+            <a href="#" class="menu-item">
+
+                <i class="fa-regular fa-clock"></i>
+
+                <span>Seguimiento</span>
+
+            </a>
+
+
+            <a href="#" class="menu-item">
+
+                <i class="fa-solid fa-chart-column"></i>
+
+                <span>Reportes</span>
+
+            </a>
+
+
+            <a href="#" class="menu-item">
+
+                <i class="fa-solid fa-gear"></i>
+
+                <span>Configuración</span>
+
+            </a>
+
+        </nav>
+
+
+
+        <!-- USUARIO -->
+
+        <div class="usuario">
+
+            <div class="foto-usuario">
+            
+                <img src="img/DR GUZMAN.PNG" alt="Dr. Guzman Bololo" class="img-foto-usuario">
+            </div>
+
+
+            <div>
+
+                <h4>DR. GUZMAN BOLOLO</h4>
+
+                <span>Psicólogo Clínico</span>
+
+            </div>
+
+        </div>
+
+
+    </aside>
+
+
+    <!-- =========================
+         CONTENIDO PRINCIPAL
+    ========================== -->
+
+    <main class="contenido">
+
+
+        <!-- HEADER -->
+
+        <header class="header-dashboard">
+
+
+            <div>
+
+                <h1>TABLA DE CONTENIDO</h1>
+
+                <p>Lunes, 16 de Octubre de 2024</p>
+
+            </div>
+
+
+
+            <div class="acciones-header">
+
+
+                <!-- BUSCADOR -->
+
+                <div class="buscador">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        type="text"
+                        placeholder="Buscar paciente por iniciales..."
+                    >
+
+                </div>
+
+
+                <!-- NOTIFICACIONES -->
+
+                <button class="notificaciones">
+
+                    <i class="fa-regular fa-bell"></i>
+
+                    <span class="punto-notificacion"></span>
+
+                </button>
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- =========================
+             TARJETAS ESTADÍSTICAS
+        ========================== -->
+
+        <section class="estadisticas">
+
+
+            <div class="tarjeta-estadistica">
+
+                <div class="titulo-tarjeta">
+
+                    <span>Pacientes Activos</span>
+
+                    <i class="fa-solid fa-users"></i>
+
+                </div>
+
+                <h2>42</h2>
+
+            </div>
+
+
+
+            <div class="tarjeta-estadistica">
+
+                <div class="titulo-tarjeta">
+
+                    <span>Evaluaciones este mes</span>
+
+                    <i class="fa-regular fa-clipboard"></i>
+
+                </div>
+
+                <h2>118</h2>
+
+            </div>
+
+
+
+            <div class="tarjeta-estadistica alerta">
+
+                <div class="titulo-tarjeta">
+
+                    <span>Alertas Activas (Alto)</span>
+
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+
+                </div>
+
+                <h2>3</h2>
+
+            </div>
+
+
+
+            <div class="tarjeta-estadistica seguimiento">
+
+                <div class="titulo-tarjeta">
+
+                    <span>Seguimientos Pendientes</span>
+
+                    <i class="fa-regular fa-clock"></i>
+
+                </div>
+
+                <h2>8</h2>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =========================
+             CONTENIDO CENTRAL
+        ========================== -->
+
+        <section class="contenido-central">
+
+
+            <!-- EVALUACIONES -->
+
+            <div class="panel evaluaciones">
+
+                <div class="titulo-panel">
+
+                    <h2>Evaluaciones Recientes</h2>
+
+                    <a href="#">
+                        Ver todas
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                </div>
+
+
+                <div class="tabla-contenedor">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Paciente<br>(Inicial)</th>
+
+                                <th>Fecha</th>
+
+                                <th>Nivel de Riesgo</th>
+
+                                <th>Estado</th>
+
+                                <th>Acción</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>M.R.</td>
+
+                                <td>15 Oct 2024</td>
+
+                                <td>
+                                    <span class="riesgo alto">
+                                        Alto
+                                    </span>
+                                </td>
+
+                                <td>Completada</td>
+
+                                <td>
+                                    <button class="btn-abrir">
+                                        Abrir
+                                    </button>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>J.C.</td>
+
+                                <td>14 Oct 2024</td>
+
+                                <td>
+                                    <span class="riesgo moderado">
+                                        Moderado
+                                    </span>
+                                </td>
+
+                                <td>En proceso</td>
+
+                                <td>
+                                    <button class="btn-abrir">
+                                        Abrir
+                                    </button>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>L.G.</td>
+
+                                <td>14 Oct 2024</td>
+
+                                <td>
+                                    <span class="riesgo bajo">
+                                        Bajo
+                                    </span>
+                                </td>
+
+                                <td>Completada</td>
+
+                                <td>
+                                    <button class="btn-abrir">
+                                        Abrir
+                                    </button>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>S.M.</td>
+
+                                <td>12 Oct 2024</td>
+
+                                <td>
+                                    <span class="riesgo moderado">
+                                        Moderado
+                                    </span>
+                                </td>
+
+                                <td>Completada</td>
+
+                                <td>
+                                    <button class="btn-abrir">
+                                        Abrir
+                                    </button>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>F.A.</td>
+
+                                <td>10 Oct 2024</td>
+
+                                <td>
+                                    <span class="riesgo bajo">
+                                        Bajo
+                                    </span>
+                                </td>
+
+                                <td>Completada</td>
+
+                                <td>
+                                    <button class="btn-abrir">
+                                        Abrir
+                                    </button>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PACIENTES ATENCIÓN -->
+
+            <div class="panel pacientes-atencion">
+
+
+                <div class="titulo-panel">
+
+                    <h2>Pacientes que Requieren Atención</h2>
+
+                    <i class="fa-solid fa-circle-exclamation"></i>
+
+                </div>
+
+
+                <!-- PACIENTE 1 -->
+
+                <div class="paciente-alerta">
+
+                    <div class="paciente-header">
+
+                        <div>
+
+                            <span class="iniciales">
+                                A.V.
+                            </span>
+
+                            <strong>3 días sin evaluar</strong>
+
+                        </div>
+
+
+                        <span class="riesgo alto">
+                            Alto
+                        </span>
+
+                    </div>
+
+
+                    <p>
+                        Ideación recurrente, necesita seguimiento preventivo inmediato.
+                    </p>
+
+
+                    <div class="detalle">
+
+                        Ver detalle
+
+                        <i class="fa-solid fa-chevron-right"></i>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PACIENTE 2 -->
+
+                <div class="paciente-alerta">
+
+                    <div class="paciente-header">
+
+                        <div>
+
+                            <span class="iniciales">
+                                E.S.
+                            </span>
+
+                            <strong>5 días sin evaluar</strong>
+
+                        </div>
+
+
+                        <span class="riesgo moderado">
+                            Moderado
+                        </span>
+
+                    </div>
+
+
+                    <p>
+                        Ausencia a cita de control pactada telefónicamente.
+                    </p>
+
+
+                    <div class="detalle">
+
+                        Ver detalle
+
+                        <i class="fa-solid fa-chevron-right"></i>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PACIENTE 3 -->
+
+                <div class="paciente-alerta">
+
+                    <div class="paciente-header">
+
+                        <div>
+
+                            <span class="iniciales">
+                                P.D.
+                            </span>
+
+                            <strong>7 días sin evaluar</strong>
+
+                        </div>
+
+
+                        <span class="riesgo moderado">
+                            Moderado
+                        </span>
+
+                    </div>
+
+
+                    <p>
+                        Fluctuación emocional reportada en auto-registro.
+                    </p>
+
+
+                    <div class="detalle">
+
+                        Ver detalle
+
+                        <i class="fa-solid fa-chevron-right"></i>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =========================
+             AVISO FINAL
+        ========================== -->
+
+        <section class="aviso-clinico">
+
+            <i class="fa-solid fa-shield-halved"></i>
+
+            <p>
+
+                <strong>Aviso de Soporte Clínico:</strong>
+
+                SADER es una herramienta de apoyo a la decisión.
+                El software procesa datos clínicos pero la decisión de diagnóstico,
+                derivación o alta es de responsabilidad única y exclusiva del profesional evaluador.
+
+            </p>
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+
+<script src="../js/dashboard.js"></script>
+
+</body>
+
+</html>
