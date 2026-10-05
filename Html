@@ -1,0 +1,3843 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SADERS — Plataforma Inteligente</title>
+
+<!-- =====================================================
+     CONTROL DE SESIÓN ANTES DE RENDERIZAR
+===================================================== -->
+
+<script>
+(function () {
+    try {
+        if (localStorage.getItem("saders_user")) {
+            document.documentElement.classList.add("saders-session");
+        }
+    } catch (e) {}
+})();
+</script>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+    theme: {
+        extend: {
+            fontFamily: {
+                sans: ["Inter", "system-ui", "sans-serif"]
+            }
+        }
+    }
+}
+</script>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: #f5f7fb;
+    color: #0f172a;
+    font-family: Inter, system-ui, sans-serif;
+}
+
+button,
+input,
+textarea,
+select {
+    font-family: inherit;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 20px;
+}
+
+
+/* =====================================================
+   CONTROL VISUAL DE SESIÓN
+===================================================== */
+
+/*
+   Por defecto:
+   - Login visible
+   - App oculta
+
+   Si existe sesión:
+   - Login oculto
+   - App visible
+
+   Esto ocurre ANTES de que la página termine de cargar,
+   evitando el flash del login.
+*/
+
+#loginScreen {
+    display: flex;
+}
+
+#app {
+    display: none;
+}
+
+html.saders-session #loginScreen {
+    display: none !important;
+}
+
+html.saders-session #app {
+    display: block !important;
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+#loginScreen {
+
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(37,99,235,.13),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(6,182,212,.10),
+            transparent 30%
+        ),
+        #f8fafc;
+
+}
+
+.login-grid {
+
+    background-image:
+        linear-gradient(
+            rgba(148,163,184,.045) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(148,163,184,.045) 1px,
+            transparent 1px
+        );
+
+    background-size: 35px 35px;
+
+}
+
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+.logo-box {
+
+    width: 46px;
+    height: 46px;
+
+    border-radius: 14px;
+
+    background: #0f172a;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+/* =====================================================
+   APP
+===================================================== */
+
+.sidebar {
+
+    width: 255px;
+
+    position: fixed;
+
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    background: white;
+
+    border-right: 1px solid #e7ebf1;
+
+    z-index: 50;
+
+}
+
+.main {
+
+    margin-left: 255px;
+
+    min-height: 100vh;
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+.nav-item {
+
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 12px 14px;
+
+    border-radius: 13px;
+
+    color: #64748b;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    transition: .2s;
+
+    cursor: pointer;
+
+    text-align: left;
+
+}
+
+.nav-item:hover {
+
+    background: #f1f5f9;
+
+    color: #0f172a;
+
+}
+
+.nav-item.active {
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+}
+
+.nav-icon {
+
+    width: 19px;
+    height: 19px;
+
+}
+
+
+/* =====================================================
+   TOPBAR
+===================================================== */
+
+.topbar {
+
+    height: 68px;
+
+    background: rgba(255,255,255,.94);
+
+    backdrop-filter: blur(15px);
+
+    border-bottom: 1px solid #e7ebf1;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 40;
+
+}
+
+
+/* =====================================================
+   CARDS
+===================================================== */
+
+.card {
+
+    background: white;
+
+    border: 1px solid #e7ebf1;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 8px 30px rgba(15,23,42,.035);
+
+}
+
+.card-hover {
+
+    transition: .2s;
+
+}
+
+.card-hover:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 18px 45px rgba(15,23,42,.07);
+
+}
+
+
+/* =====================================================
+   STATISTICS
+===================================================== */
+
+.stat-number {
+
+    font-size: 29px;
+
+    font-weight: 900;
+
+    letter-spacing: -1px;
+
+}
+
+
+/* =====================================================
+   BADGES
+===================================================== */
+
+.badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    border-radius: 999px;
+
+    padding: 6px 10px;
+
+    font-size: 9px;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+
+    letter-spacing: .05em;
+
+}
+
+.badge-low {
+
+    background: #ecfdf5;
+    color: #047857;
+
+}
+
+.badge-medium {
+
+    background: #fffbeb;
+    color: #b45309;
+
+}
+
+.badge-high {
+
+    background: #fff7ed;
+    color: #c2410c;
+
+}
+
+.badge-critical {
+
+    background: #fff1f2;
+    color: #be123c;
+
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal-bg {
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(15,23,42,.52);
+
+    backdrop-filter: blur(5px);
+
+    z-index: 100;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+}
+
+.modal {
+
+    width: 100%;
+
+    max-width: 600px;
+
+    background: white;
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 30px 80px rgba(15,23,42,.2);
+
+    animation: modalIn .25s ease;
+
+}
+
+@keyframes modalIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(15px)
+            scale(.98);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.patient-row {
+
+    transition: .18s;
+
+    cursor: pointer;
+
+}
+
+.patient-row:hover {
+
+    background: #f8fafc;
+
+}
+
+
+/* =====================================================
+   AVATAR
+===================================================== */
+
+.avatar {
+
+    width: 42px;
+    height: 42px;
+
+    border-radius: 13px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 13px;
+
+    font-weight: 900;
+
+}
+
+
+/* =====================================================
+   AI
+===================================================== */
+
+.ai-shell {
+
+    background:
+
+        radial-gradient(
+            circle at 80% 10%,
+            rgba(37,99,235,.10),
+            transparent 30%
+        ),
+
+        white;
+
+}
+
+.chat-messages {
+
+    height: 430px;
+
+    overflow-y: auto;
+
+    padding: 20px;
+
+}
+
+.chat-user {
+
+    background: #2563eb;
+
+    color: white;
+
+    border-radius:
+        18px
+        18px
+        4px
+        18px;
+
+    max-width: 80%;
+
+    padding: 12px 15px;
+
+    margin-left: auto;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+}
+
+.chat-ai {
+
+    background: #f1f5f9;
+
+    color: #334155;
+
+    border-radius:
+        18px
+        18px
+        18px
+        4px;
+
+    max-width: 85%;
+
+    padding: 12px 15px;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+}
+
+.ai-dot {
+
+    width: 8px;
+    height: 8px;
+
+    background: #2563eb;
+
+    border-radius: 50%;
+
+    animation: pulseAI 1.2s infinite;
+
+}
+
+@keyframes pulseAI {
+
+    0%,100% {
+        opacity: .25;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+}
+
+
+/* =====================================================
+   FILE / EXPEDIENTE
+===================================================== */
+
+.file-card {
+
+    transition: .2s;
+
+    cursor: pointer;
+
+}
+
+.file-card:hover {
+
+    transform: translateY(-2px);
+
+    border-color: #bfdbfe;
+
+}
+
+
+/* =====================================================
+   TIMELINE
+===================================================== */
+
+.timeline {
+
+    position: relative;
+
+}
+
+.timeline::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 17px;
+
+    top: 0;
+
+    bottom: 0;
+
+    width: 2px;
+
+    background: #e2e8f0;
+
+}
+
+.timeline-item {
+
+    position: relative;
+
+    padding-left: 48px;
+
+    padding-bottom: 28px;
+
+}
+
+.timeline-dot {
+
+    position: absolute;
+
+    left: 9px;
+
+    top: 2px;
+
+    width: 18px;
+
+    height: 18px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    border: 4px solid #2563eb;
+
+}
+
+
+/* =====================================================
+   ANALYZER SOON
+===================================================== */
+
+.soon-card {
+
+    min-height: 530px;
+
+    background:
+
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(37,99,235,.08),
+            transparent 35%
+        ),
+
+        white;
+
+}
+
+.lock-circle {
+
+    width: 85px;
+
+    height: 85px;
+
+    border-radius: 25px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:900px) {
+
+    .sidebar {
+
+        width: 72px;
+
+    }
+
+    .hide-mobile {
+
+        display: none !important;
+
+    }
+
+    .nav-item {
+
+        justify-content: center;
+
+    }
+
+    .main {
+
+        margin-left: 72px;
+
+    }
+
+}
+
+@media(max-width:640px) {
+
+    .sidebar {
+
+        display: none;
+
+    }
+
+    .main {
+
+        margin-left: 0;
+
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     LOGIN
+===================================================== -->
+
+<section
+    id="loginScreen"
+    class="login-grid min-h-screen flex items-center justify-center p-5"
+>
+
+    <div class="w-full max-w-md">
+
+        <div class="text-center mb-8">
+
+            <div class="flex justify-center mb-5">
+
+                <div class="logo-box">
+
+                    <svg
+                        width="27"
+                        height="27"
+                        viewBox="0 0 48 48"
+                        fill="none"
+                    >
+
+                        <path
+                            d="M31.5 14.5C29.2 12.8 26.6 12 23.7 12C18.2 12 14 15 14 19.4C14 23.3 16.8 25.2 22.5 26.7L25.1 27.4C28.2 28.2 29.7 29.1 29.7 30.8C29.7 32.7 27.8 34 24.6 34C21.3 34 18.7 32.9 16.2 30.7"
+                            stroke="white"
+                            stroke-width="3.4"
+                            stroke-linecap="round"
+                        />
+
+                        <path
+                            d="M29.5 34.1C32.3 33.1 34 31.2 34 28.9"
+                            stroke="#3b82f6"
+                            stroke-width="3.4"
+                            stroke-linecap="round"
+                        />
+
+                        <circle
+                            cx="34"
+                            cy="14"
+                            r="3"
+                            fill="#06b6d4"
+                        />
+
+                    </svg>
+
+                </div>
+
+            </div>
+
+
+            <h1 class="text-3xl font-black">
+                SADERS
+            </h1>
+
+            <p class="text-xs uppercase tracking-[.2em] text-slate-400 font-bold mt-2">
+                Plataforma inteligente
+            </p>
+
+        </div>
+
+
+        <div class="card p-7">
+
+            <h2 class="text-xl font-black">
+                Iniciar sesión
+            </h2>
+
+            <p class="text-sm text-slate-400 mt-1">
+                Accede al centro de control SADERS.
+            </p>
+
+
+            <form
+                onsubmit="login(event)"
+                class="mt-6"
+            >
+
+                <label class="text-xs font-black text-slate-600">
+                    Usuario
+                </label>
+
+                <input
+                    id="loginUser"
+                    required
+                    type="text"
+                    placeholder="Ej. profesional"
+                    class="w-full mt-2 border border-slate-200 bg-slate-50 rounded-xl px-4 py-3.5 text-sm outline-none focus:border-blue-500"
+                >
+
+
+                <label class="block text-xs font-black text-slate-600 mt-5">
+                    Contraseña
+                </label>
+
+                <input
+                    id="loginPass"
+                    required
+                    type="password"
+                    placeholder="••••••••"
+                    class="w-full mt-2 border border-slate-200 bg-slate-50 rounded-xl px-4 py-3.5 text-sm outline-none focus:border-blue-500"
+                >
+
+
+                <button
+                    class="w-full mt-6 bg-slate-950 hover:bg-blue-600 text-white py-3.5 rounded-xl font-black transition"
+                >
+                    Entrar a SADERS
+                </button>
+
+            </form>
+
+
+            <div class="text-center text-[10px] text-slate-400 mt-5">
+                Acceso simulado · Proyecto académico
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     APPLICATION
+===================================================== -->
+
+<div id="app">
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar flex flex-col">
+
+
+    <div class="p-5">
+
+        <div class="flex items-center gap-3">
+
+            <div class="logo-box">
+
+                <svg
+                    width="25"
+                    height="25"
+                    viewBox="0 0 48 48"
+                    fill="none"
+                >
+
+                    <path
+                        d="M31.5 14.5C29.2 12.8 26.6 12 23.7 12C18.2 12 14 15 14 19.4C14 23.3 16.8 25.2 22.5 26.7L25.1 27.4C28.2 28.2 29.7 29.1 29.7 30.8C29.7 32.7 27.8 34 24.6 34C21.3 34 18.7 32.9 16.2 30.7"
+                        stroke="white"
+                        stroke-width="3.4"
+                        stroke-linecap="round"
+                    />
+
+                    <path
+                        d="M29.5 34.1C32.3 33.1 34 31.2 34 28.9"
+                        stroke="#3b82f6"
+                        stroke-width="3.4"
+                        stroke-linecap="round"
+                    />
+
+                    <circle
+                        cx="34"
+                        cy="14"
+                        r="3"
+                        fill="#06b6d4"
+                    />
+
+                </svg>
+
+            </div>
+
+
+            <div class="hide-mobile">
+
+                <div class="font-black text-lg">
+                    SADERS
+                </div>
+
+                <div class="text-[8px] uppercase tracking-widest text-slate-400 font-bold">
+                    Smart analysis
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="px-3">
+
+        <div class="hide-mobile text-[9px] uppercase tracking-[.18em] text-slate-400 font-black px-3 mb-3">
+            Plataforma
+        </div>
+
+
+        <nav class="space-y-1">
+
+
+            <!-- DASHBOARD -->
+
+            <button
+                onclick="showPage('dashboard',this)"
+                class="nav-item active"
+            >
+
+                <svg
+                    class="nav-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                >
+
+                    <rect
+                        x="4"
+                        y="4"
+                        width="6"
+                        height="6"
+                        rx="1.5"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    />
+
+                    <rect
+                        x="14"
+                        y="4"
+                        width="6"
+                        height="6"
+                        rx="1.5"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    />
+
+                    <rect
+                        x="4"
+                        y="14"
+                        width="6"
+                        height="6"
+                        rx="1.5"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    />
+
+                    <rect
+                        x="14"
+                        y="14"
+                        width="6"
+                        height="6"
+                        rx="1.5"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    />
+
+                </svg>
+
+                <span class="hide-mobile">
+                    Centro de control
+                </span>
+
+            </button>
+
+
+
+            <!-- PATIENTS -->
+
+            <button
+                onclick="showPage('patients',this)"
+                class="nav-item"
+            >
+
+                <svg
+                    class="nav-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                >
+
+                    <circle
+                        cx="9"
+                        cy="8"
+                        r="3"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    />
+
+                    <circle
+                        cx="17"
+                        cy="10"
+                        r="2.3"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    />
+
+                    <path
+                        d="M3.5 19c.7-3.3 2.5-5 5.5-5s4.8 1.7 5.5 5"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                    />
+
+                </svg>
+
+                <span class="hide-mobile">
+                    Pacientes
+                </span>
+
+            </button>
+
+
+
+            <!-- FILES -->
+
+            <button
+                onclick="showPage('records',this)"
+                class="nav-item"
+            >
+
+                <svg
+                    class="nav-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                >
+
+                    <path
+                        d="M4 6.5A2.5 2.5 0 0 1 6.5 4H10l2 2h5.5A2.5 2.5 0 0 1 20 8.5v9A2.5 2.5 0 0 1 17.5 20h-11A2.5 2.5 0 0 1 4 17.5v-11Z"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    />
+
+                </svg>
+
+                <span class="hide-mobile">
+                    Expedientes
+                </span>
+
+            </button>
+
+
+
+            <!-- AI -->
+
+            <button
+                onclick="showPage('ai',this)"
+                class="nav-item"
+            >
+
+                <svg
+                    class="nav-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                >
+
+                    <path
+                        d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                    />
+
+                    <circle
+                        cx="12"
+                        cy="12"
+                        r="4.5"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    />
+
+                </svg>
+
+                <span class="hide-mobile">
+                    SADERS IA
+                </span>
+
+                <span class="hide-mobile ml-auto text-[7px] bg-blue-50 text-blue-600 px-2 py-1 rounded-full">
+                    IA
+                </span>
+
+            </button>
+
+
+
+            <!-- ANALYZER -->
+
+            <button
+                onclick="showPage('analyzer',this)"
+                class="nav-item"
+            >
+
+                <svg
+                    class="nav-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                >
+
+                    <circle
+                        cx="10.5"
+                        cy="10.5"
+                        r="6.5"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    />
+
+                    <path
+                        d="m16 16 4.5 4.5"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                    />
+
+                </svg>
+
+                <span class="hide-mobile">
+                    Analizador
+                </span>
+
+                <span class="hide-mobile ml-auto text-[7px] bg-slate-100 px-2 py-1 rounded-full">
+                    PRÓXIMO
+                </span>
+
+            </button>
+
+        </nav>
+
+    </div>
+
+
+
+    <div class="mt-auto p-4">
+
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+
+            <div class="flex items-center gap-2">
+
+                <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+
+                <span class="hide-mobile text-[9px] font-black uppercase tracking-wider text-slate-500">
+                    Sistema online
+                </span>
+
+            </div>
+
+
+            <div
+                id="sideUser"
+                class="hide-mobile text-xs font-black mt-3"
+            >
+                Profesional
+            </div>
+
+        </div>
+
+
+        <button
+            onclick="logout()"
+            class="w-full mt-3 text-xs font-bold text-slate-400 hover:text-red-500 transition py-2"
+        >
+            Cerrar sesión
+        </button>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+<header class="topbar flex items-center justify-between px-5 sm:px-8">
+
+    <div>
+
+        <div
+            id="pageTitle"
+            class="font-black text-sm"
+        >
+            Centro de control
+        </div>
+
+        <div class="text-[9px] uppercase tracking-widest text-slate-400 font-bold">
+            SADERS / Plataforma
+        </div>
+
+    </div>
+
+
+    <div class="flex items-center gap-4">
+
+        <div class="hidden sm:flex items-center gap-2 text-[9px] uppercase tracking-widest font-black text-slate-400">
+
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+
+            Online
+
+        </div>
+
+
+        <div
+            id="topAvatar"
+            class="w-9 h-9 rounded-xl bg-slate-950 text-white flex items-center justify-center text-xs font-black"
+        >
+            P
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<section
+    id="page-dashboard"
+    class="page max-w-7xl mx-auto px-5 sm:px-8 py-8"
+>
+
+
+    <div class="mb-8">
+
+        <div class="text-[9px] uppercase tracking-[.2em] text-blue-600 font-black">
+            Centro de seguimiento
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">
+            Hola, <span id="welcomeUser">Profesional</span>.
+        </h1>
+
+        <p class="text-sm text-slate-500 mt-2">
+            Este es el estado general de tu sistema SADERS.
+        </p>
+
+    </div>
+
+
+
+    <!-- STATS -->
+
+    <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+
+
+        <div class="card card-hover p-5">
+
+            <div class="flex justify-between">
+
+                <div>
+
+                    <div class="text-[9px] uppercase tracking-widest font-black text-slate-400">
+                        Pacientes
+                    </div>
+
+                    <div
+                        id="statTotal"
+                        class="stat-number mt-2"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+                <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                    👥
+                </div>
+
+            </div>
+
+            <div class="text-[10px] text-slate-400 mt-3">
+                Registros activos
+            </div>
+
+        </div>
+
+
+
+        <div class="card card-hover p-5">
+
+            <div class="flex justify-between">
+
+                <div>
+
+                    <div class="text-[9px] uppercase tracking-widest font-black text-slate-400">
+                        Seguimiento
+                    </div>
+
+                    <div
+                        id="statMedium"
+                        class="stat-number mt-2 text-amber-500"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+                <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center">
+                    !
+                </div>
+
+            </div>
+
+            <div class="text-[10px] text-slate-400 mt-3">
+                Requieren seguimiento
+            </div>
+
+        </div>
+
+
+
+        <div class="card card-hover p-5">
+
+            <div class="flex justify-between">
+
+                <div>
+
+                    <div class="text-[9px] uppercase tracking-widest font-black text-slate-400">
+                        Prioridad
+                    </div>
+
+                    <div
+                        id="statHigh"
+                        class="stat-number mt-2 text-red-500"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+                <div class="w-10 h-10 rounded-xl bg-red-50 text-red-500 flex items-center justify-center">
+                    ⚠
+                </div>
+
+            </div>
+
+            <div class="text-[10px] text-slate-400 mt-3">
+                Revisión prioritaria
+            </div>
+
+        </div>
+
+
+
+        <div class="card card-hover p-5">
+
+            <div class="flex justify-between">
+
+                <div>
+
+                    <div class="text-[9px] uppercase tracking-widest font-black text-slate-400">
+                        Expedientes
+                    </div>
+
+                    <div
+                        id="statRecords"
+                        class="stat-number mt-2 text-blue-600"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+                <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                    📁
+                </div>
+
+            </div>
+
+            <div class="text-[10px] text-slate-400 mt-3">
+                Registros disponibles
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- CONTROL CENTER -->
+
+    <div class="grid xl:grid-cols-[1.25fr_.75fr] gap-5">
+
+
+        <!-- PATIENTS -->
+
+        <div class="card p-6">
+
+            <div class="flex items-center justify-between mb-5">
+
+                <div>
+
+                    <h2 class="font-black text-lg">
+                        Pacientes que requieren atención
+                    </h2>
+
+                    <p class="text-xs text-slate-400 mt-1">
+                        Vista rápida del seguimiento.
+                    </p>
+
+                </div>
+
+                <button
+                    onclick="showPageByName('patients')"
+                    class="text-xs font-black text-blue-600"
+                >
+                    Ver todos →
+                </button>
+
+            </div>
+
+
+            <div id="priorityPatients"></div>
+
+        </div>
+
+
+
+        <!-- ALERTS -->
+
+        <div class="card p-6">
+
+            <div class="text-[9px] uppercase tracking-widest text-slate-400 font-black">
+                Centro de alertas
+            </div>
+
+            <h2 class="font-black text-lg mt-2">
+                Actividad reciente
+            </h2>
+
+
+            <div class="space-y-4 mt-5">
+
+
+                <div class="flex gap-3">
+
+                    <div class="w-9 h-9 rounded-xl bg-red-50 text-red-500 flex items-center justify-center shrink-0">
+                        !
+                    </div>
+
+                    <div>
+
+                        <div class="text-xs font-black">
+                            Revisión prioritaria
+                        </div>
+
+                        <div class="text-[10px] text-slate-400 mt-1">
+                            Hay pacientes con seguimiento pendiente.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="flex gap-3">
+
+                    <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                        +
+                    </div>
+
+                    <div>
+
+                        <div class="text-xs font-black">
+                            Sistema actualizado
+                        </div>
+
+                        <div class="text-[10px] text-slate-400 mt-1">
+                            SADERS IA está preparado para integración.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="flex gap-3">
+
+                    <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <div class="text-xs font-black">
+                            Plataforma operativa
+                        </div>
+
+                        <div class="text-[10px] text-slate-400 mt-1">
+                            Todos los módulos principales están activos.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- QUICK ACTIONS -->
+
+    <div class="grid md:grid-cols-3 gap-4 mt-5">
+
+
+        <button
+            onclick="openPatientModal()"
+            class="card card-hover p-5 text-left"
+        >
+
+            <div class="w-11 h-11 rounded-xl bg-slate-950 text-white flex items-center justify-center text-xl">
+                +
+            </div>
+
+            <div class="font-black mt-4">
+                Nuevo paciente
+            </div>
+
+            <div class="text-xs text-slate-400 mt-1">
+                Crear un nuevo registro.
+            </div>
+
+        </button>
+
+
+
+        <button
+            onclick="showPageByName('records')"
+            class="card card-hover p-5 text-left"
+        >
+
+            <div class="w-11 h-11 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl">
+                📁
+            </div>
+
+            <div class="font-black mt-4">
+                Ver expedientes
+            </div>
+
+            <div class="text-xs text-slate-400 mt-1">
+                Consultar historial y evolución.
+            </div>
+
+        </button>
+
+
+
+        <button
+            onclick="showPageByName('ai')"
+            class="card card-hover p-5 text-left"
+        >
+
+            <div class="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl">
+                ✦
+            </div>
+
+            <div class="font-black mt-4">
+                Consultar SADERS IA
+            </div>
+
+            <div class="text-xs text-slate-400 mt-1">
+                Asistente inteligente.
+            </div>
+
+        </button>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     PATIENTS
+===================================================== -->
+
+<section
+    id="page-patients"
+    class="page hidden max-w-7xl mx-auto px-5 sm:px-8 py-8"
+>
+
+
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-5 mb-7">
+
+        <div>
+
+            <div class="text-[9px] uppercase tracking-[.2em] text-blue-600 font-black">
+                Gestión
+            </div>
+
+            <h1 class="text-3xl sm:text-4xl font-black mt-2">
+                Pacientes
+            </h1>
+
+            <p class="text-sm text-slate-500 mt-2">
+                Administra todos los pacientes registrados.
+            </p>
+
+        </div>
+
+
+        <button
+            onclick="openPatientModal()"
+            class="bg-slate-950 hover:bg-blue-600 text-white px-5 py-3 rounded-xl text-sm font-black transition"
+        >
+            + Nuevo paciente
+        </button>
+
+    </div>
+
+
+
+    <div class="card overflow-hidden">
+
+        <div class="p-5 border-b border-slate-100">
+
+            <input
+                id="searchPatient"
+                oninput="renderPatients()"
+                placeholder="Buscar paciente por nombre o documento..."
+                class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-500"
+            >
+
+        </div>
+
+
+        <div class="overflow-x-auto">
+
+            <table class="w-full">
+
+                <thead>
+
+                    <tr class="border-b border-slate-100 text-left">
+
+                        <th class="px-5 py-4 text-[9px] uppercase tracking-widest text-slate-400 font-black">
+                            Paciente
+                        </th>
+
+                        <th class="px-5 py-4 text-[9px] uppercase tracking-widest text-slate-400 font-black">
+                            Edad
+                        </th>
+
+                        <th class="px-5 py-4 text-[9px] uppercase tracking-widest text-slate-400 font-black">
+                            Última revisión
+                        </th>
+
+                        <th class="px-5 py-4 text-[9px] uppercase tracking-widest text-slate-400 font-black">
+                            Riesgo
+                        </th>
+
+                        <th class="px-5 py-4 text-[9px] uppercase tracking-widest text-slate-400 font-black">
+                            Estado
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="patientsTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     EXPEDIENTES
+===================================================== -->
+
+<section
+    id="page-records"
+    class="page hidden max-w-7xl mx-auto px-5 sm:px-8 py-8"
+>
+
+
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-5 mb-7">
+
+        <div>
+
+            <div class="text-[9px] uppercase tracking-[.2em] text-indigo-600 font-black">
+                Gestión documental
+            </div>
+
+            <h1 class="text-3xl sm:text-4xl font-black mt-2">
+                Expedientes
+            </h1>
+
+            <p class="text-sm text-slate-500 mt-2">
+                Historial, seguimiento y actividad de cada paciente.
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="grid lg:grid-cols-[.8fr_1.2fr] gap-5">
+
+
+        <!-- LIST -->
+
+        <div class="card p-5">
+
+            <div class="flex justify-between items-center mb-5">
+
+                <div>
+
+                    <div class="text-[9px] uppercase tracking-widest text-slate-400 font-black">
+                        Registros
+                    </div>
+
+                    <h2 class="font-black mt-1">
+                        Seleccionar paciente
+                    </h2>
+
+                </div>
+
+                <span
+                    id="recordsCount"
+                    class="text-[10px] text-slate-400 font-bold"
+                >
+                    0
+                </span>
+
+            </div>
+
+
+            <div
+                id="recordsPatientList"
+                class="space-y-2"
+            ></div>
+
+        </div>
+
+
+
+        <!-- RECORD -->
+
+        <div
+            id="recordViewer"
+            class="card p-6"
+        >
+
+            <div class="h-full min-h-[500px] flex items-center justify-center text-center">
+
+                <div>
+
+                    <div class="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto text-2xl">
+                        📁
+                    </div>
+
+                    <h3 class="font-black text-xl mt-5">
+                        Selecciona un expediente
+                    </h3>
+
+                    <p class="text-sm text-slate-400 max-w-sm mt-2">
+                        Selecciona un paciente para visualizar
+                        su información e historial.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SADERS IA
+===================================================== -->
+
+<section
+    id="page-ai"
+    class="page hidden max-w-7xl mx-auto px-5 sm:px-8 py-8"
+>
+
+
+    <div class="mb-7">
+
+        <div class="text-[9px] uppercase tracking-[.2em] text-blue-600 font-black">
+            Inteligencia artificial
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl font-black mt-2">
+            SADERS IA
+        </h1>
+
+        <p class="text-sm text-slate-500 mt-2">
+            Asistente para consultar información y apoyar el flujo de trabajo.
+        </p>
+
+    </div>
+
+
+
+    <div class="card ai-shell overflow-hidden">
+
+
+        <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+
+            <div class="flex items-center gap-3">
+
+                <div class="w-11 h-11 rounded-xl bg-blue-600 text-white flex items-center justify-center text-xl">
+                    ✦
+                </div>
+
+                <div>
+
+                    <div class="font-black">
+                        SADERS Assistant
+                    </div>
+
+                    <div class="flex items-center gap-2 text-[9px] text-emerald-600 font-bold mt-1">
+
+                        <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
+
+                        Asistente disponible
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <span class="text-[8px] uppercase tracking-widest font-black bg-blue-50 text-blue-600 px-3 py-2 rounded-full">
+                API READY
+            </span>
+
+        </div>
+
+
+
+        <div
+            id="chatMessages"
+            class="chat-messages"
+        >
+
+            <div class="chat-ai">
+
+                Hola. Soy el asistente de SADERS.
+
+                <br><br>
+
+                Puedo ayudarte a consultar información
+                general del sistema, organizar ideas,
+                explicar conceptos o preparar información
+                para el flujo de trabajo.
+
+                <br><br>
+
+                <strong>
+                    El análisis clínico debe ser realizado
+                    y validado por un profesional.
+                </strong>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="p-5 border-t border-slate-100">
+
+            <div class="flex gap-3">
+
+                <textarea
+                    id="chatInput"
+                    rows="2"
+                    onkeydown="handleChatKey(event)"
+                    placeholder="Escribe tu consulta..."
+                    class="flex-1 resize-none bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-500"
+                ></textarea>
+
+
+                <button
+                    onclick="sendMessage()"
+                    class="w-12 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black transition"
+                >
+                    ↑
+                </button>
+
+            </div>
+
+
+            <div class="text-[9px] text-slate-400 mt-3">
+                La conexión real con IA se realiza mediante tu backend.
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ANALYZER
+===================================================== -->
+
+<section
+    id="page-analyzer"
+    class="page hidden max-w-7xl mx-auto px-5 sm:px-8 py-8"
+>
+
+
+    <div class="mb-7">
+
+        <div class="text-[9px] uppercase tracking-[.2em] text-blue-600 font-black">
+            Inteligencia lingüística
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl font-black mt-2">
+            Analizador
+        </h1>
+
+        <p class="text-sm text-slate-500 mt-2">
+            Este módulo será desarrollado posteriormente.
+        </p>
+
+    </div>
+
+
+
+    <div class="card soon-card flex items-center justify-center text-center p-10">
+
+        <div class="max-w-lg">
+
+            <div class="lock-circle mx-auto">
+
+                <svg
+                    width="35"
+                    height="35"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                >
+
+                    <rect
+                        x="5"
+                        y="10"
+                        width="14"
+                        height="10"
+                        rx="2"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    />
+
+                    <path
+                        d="M8 10V7a4 4 0 0 1 8 0v3"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                    />
+
+                </svg>
+
+            </div>
+
+
+            <div class="inline-flex bg-blue-50 text-blue-600 rounded-full px-3 py-1.5 text-[9px] font-black uppercase tracking-widest mt-6">
+                Muy pronto
+            </div>
+
+
+            <h2 class="text-3xl font-black mt-4">
+                Analizador SADERS
+            </h2>
+
+
+            <p class="text-sm text-slate-500 leading-7 mt-4">
+                Aquí podrás desarrollar posteriormente el motor
+                de análisis lingüístico, detección de indicadores
+                y explicación de resultados.
+            </p>
+
+
+            <div class="grid sm:grid-cols-3 gap-3 mt-7">
+
+                <div class="bg-slate-50 rounded-2xl p-4">
+                    <div class="text-blue-600 font-black">01</div>
+                    <div class="font-black text-xs mt-2">Procesamiento</div>
+                </div>
+
+                <div class="bg-slate-50 rounded-2xl p-4">
+                    <div class="text-blue-600 font-black">02</div>
+                    <div class="font-black text-xs mt-2">Detección</div>
+                </div>
+
+                <div class="bg-slate-50 rounded-2xl p-4">
+                    <div class="text-blue-600 font-black">03</div>
+                    <div class="font-black text-xs mt-2">Explicación</div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<footer class="px-5 sm:px-8 py-8 text-center text-[10px] text-slate-400">
+    SADERS · Sistema de Análisis · Prototipo académico · 2026
+</footer>
+
+
+</main>
+
+</div>
+
+
+
+<!-- =====================================================
+     NEW PATIENT MODAL
+===================================================== -->
+
+<div
+    id="patientModal"
+    class="modal-bg"
+>
+
+    <div class="modal p-6 sm:p-7">
+
+        <div class="flex justify-between items-start">
+
+            <div>
+
+                <div class="text-[9px] uppercase tracking-widest text-blue-600 font-black">
+                    Nuevo registro
+                </div>
+
+                <h2 class="text-2xl font-black mt-2">
+                    Agregar paciente
+                </h2>
+
+            </div>
+
+
+            <button
+                onclick="closePatientModal()"
+                class="w-9 h-9 rounded-xl bg-slate-100 font-black"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form
+            onsubmit="addPatient(event)"
+            class="mt-7"
+        >
+
+            <div class="grid sm:grid-cols-2 gap-4">
+
+
+                <div class="sm:col-span-2">
+
+                    <label class="text-xs font-black text-slate-600">
+                        Nombre completo
+                    </label>
+
+                    <input
+                        id="patientName"
+                        required
+                        placeholder="Ej. Laura Martínez"
+                        class="w-full mt-2 border border-slate-200 bg-slate-50 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-500"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label class="text-xs font-black text-slate-600">
+                        Documento
+                    </label>
+
+                    <input
+                        id="patientDocument"
+                        required
+                        placeholder="1020304050"
+                        class="w-full mt-2 border border-slate-200 bg-slate-50 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-500"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label class="text-xs font-black text-slate-600">
+                        Edad
+                    </label>
+
+                    <input
+                        id="patientAge"
+                        required
+                        type="number"
+                        min="1"
+                        max="120"
+                        placeholder="22"
+                        class="w-full mt-2 border border-slate-200 bg-slate-50 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-500"
+                    >
+
+                </div>
+
+
+                <div class="sm:col-span-2">
+
+                    <label class="text-xs font-black text-slate-600">
+                        Nivel inicial
+                    </label>
+
+                    <select
+                        id="patientRisk"
+                        class="w-full mt-2 border border-slate-200 bg-slate-50 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-500"
+                    >
+
+                        <option value="Bajo">
+                            Bajo
+                        </option>
+
+                        <option value="Medio">
+                            Medio
+                        </option>
+
+                        <option value="Alto">
+                            Alto
+                        </option>
+
+                        <option value="Crítico">
+                            Crítico
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="flex justify-end gap-3 mt-7">
+
+                <button
+                    type="button"
+                    onclick="closePatientModal()"
+                    class="px-5 py-3 rounded-xl bg-slate-100 text-slate-600 text-sm font-black"
+                >
+                    Cancelar
+                </button>
+
+
+                <button
+                    class="px-5 py-3 rounded-xl bg-slate-950 text-white text-sm font-black hover:bg-blue-600 transition"
+                >
+                    Crear paciente
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     PATIENT DETAIL
+===================================================== -->
+
+<div
+    id="patientDetailModal"
+    class="modal-bg"
+>
+
+    <div class="modal p-6 sm:p-7">
+
+        <div id="patientDetail"></div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   DEMO DATA
+===================================================== */
+
+const defaultPatients = [
+
+    {
+        id: 1,
+        name: "Laura Martínez",
+        document: "1020304050",
+        age: 21,
+        risk: "Medio",
+        status: "Seguimiento",
+        date: "02 Oct 2026"
+    },
+
+    {
+        id: 2,
+        name: "Daniel Rodríguez",
+        document: "1030405060",
+        age: 24,
+        risk: "Bajo",
+        status: "Estable",
+        date: "30 Sep 2026"
+    },
+
+    {
+        id: 3,
+        name: "Sofía Hernández",
+        document: "1010203040",
+        age: 19,
+        risk: "Alto",
+        status: "Prioritario",
+        date: "29 Sep 2026"
+    },
+
+    {
+        id: 4,
+        name: "Mateo Vargas",
+        document: "1002030405",
+        age: 27,
+        risk: "Bajo",
+        status: "Estable",
+        date: "27 Sep 2026"
+    },
+
+    {
+        id: 5,
+        name: "Camila Torres",
+        document: "1004050607",
+        age: 22,
+        risk: "Crítico",
+        status: "Revisión inmediata",
+        date: "25 Sep 2026"
+    }
+
+];
+
+
+let patients =
+    JSON.parse(
+        localStorage.getItem("saders_patients")
+    ) || defaultPatients;
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+function login(event) {
+
+    event.preventDefault();
+
+    const user =
+        document
+            .getElementById("loginUser")
+            .value
+            .trim();
+
+    const pass =
+        document
+            .getElementById("loginPass")
+            .value
+            .trim();
+
+
+    if (!user || !pass)
+        return;
+
+
+    localStorage.setItem(
+        "saders_user",
+        user
+    );
+
+
+    /* Activamos inmediatamente la sesión */
+    document.documentElement.classList.add(
+        "saders-session"
+    );
+
+
+    document
+        .getElementById("loginScreen")
+        .style.display = "none";
+
+
+    document
+        .getElementById("app")
+        .style.display = "block";
+
+
+    initializeApp();
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout() {
+
+    localStorage.removeItem(
+        "saders_user"
+    );
+
+
+    /* Quitamos la sesión del documento */
+    document.documentElement.classList.remove(
+        "saders-session"
+    );
+
+
+    document
+        .getElementById("app")
+        .style.display = "none";
+
+
+    document
+        .getElementById("loginScreen")
+        .style.display = "flex";
+
+
+    /* Limpiamos campos del login */
+    const userInput =
+        document.getElementById("loginUser");
+
+    const passInput =
+        document.getElementById("loginPass");
+
+    if (userInput)
+        userInput.value = "";
+
+    if (passInput)
+        passInput.value = "";
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+function initializeApp() {
+
+    const user =
+        localStorage.getItem(
+            "saders_user"
+        ) || "Profesional";
+
+
+    const displayName =
+        user
+            .replace(/[._-]/g," ")
+            .replace(
+                /\b\w/g,
+                l => l.toUpperCase()
+            );
+
+
+    document
+        .getElementById("welcomeUser")
+        .textContent = displayName;
+
+
+    document
+        .getElementById("sideUser")
+        .textContent = displayName;
+
+
+    document
+        .getElementById("topAvatar")
+        .textContent =
+        displayName
+            .charAt(0)
+            .toUpperCase();
+
+
+    updateStats();
+
+    renderPatients();
+
+    renderRecent();
+
+    renderRecords();
+
+    renderPriority();
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function showPage(page,button) {
+
+    document
+        .querySelectorAll(".page")
+        .forEach(
+            el =>
+                el.classList.add("hidden")
+        );
+
+
+    const target =
+        document.getElementById(
+            "page-" + page
+        );
+
+
+    if (target)
+        target.classList.remove("hidden");
+
+
+    document
+        .querySelectorAll(".nav-item")
+        .forEach(
+            el =>
+                el.classList.remove("active")
+        );
+
+
+    if (button)
+        button.classList.add("active");
+
+
+    const titles = {
+
+        dashboard: "Centro de control",
+
+        patients: "Pacientes",
+
+        records: "Expedientes",
+
+        ai: "SADERS IA",
+
+        analyzer: "Analizador"
+
+    };
+
+
+    document
+        .getElementById("pageTitle")
+        .textContent =
+        titles[page] || "SADERS";
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+function showPageByName(page) {
+
+    const buttons =
+        document.querySelectorAll(
+            ".nav-item"
+        );
+
+
+    let target = null;
+
+
+    buttons.forEach(btn => {
+
+        const click =
+            btn.getAttribute(
+                "onclick"
+            ) || "";
+
+
+        if (
+            click.includes(
+                "'" + page + "'"
+            )
+        ) {
+
+            target = btn;
+
+        }
+
+    });
+
+
+    showPage(page,target);
+
+}
+
+
+/* =====================================================
+   STATS
+===================================================== */
+
+function updateStats() {
+
+    const total =
+        patients.length;
+
+
+    const medium =
+        patients.filter(
+            p => p.risk === "Medio"
+        ).length;
+
+
+    const high =
+        patients.filter(
+            p =>
+                p.risk === "Alto" ||
+                p.risk === "Crítico"
+        ).length;
+
+
+    document
+        .getElementById("statTotal")
+        .textContent = total;
+
+
+    document
+        .getElementById("statMedium")
+        .textContent = medium;
+
+
+    document
+        .getElementById("statHigh")
+        .textContent = high;
+
+
+    document
+        .getElementById("statRecords")
+        .textContent = total;
+
+}
+
+
+/* =====================================================
+   PATIENT HELPERS
+===================================================== */
+
+function getInitials(name) {
+
+    return name
+        .split(" ")
+        .slice(0,2)
+        .map(
+            x =>
+                x.charAt(0)
+        )
+        .join("")
+        .toUpperCase();
+
+}
+
+
+function avatarColor(risk) {
+
+    if (risk === "Crítico")
+        return "bg-red-50 text-red-600";
+
+    if (risk === "Alto")
+        return "bg-orange-50 text-orange-600";
+
+    if (risk === "Medio")
+        return "bg-amber-50 text-amber-600";
+
+    return "bg-blue-50 text-blue-600";
+
+}
+
+
+function riskBadge(risk) {
+
+    let cls =
+        "badge-low";
+
+
+    if (risk === "Medio")
+        cls = "badge-medium";
+
+
+    if (risk === "Alto")
+        cls = "badge-high";
+
+
+    if (risk === "Crítico")
+        cls = "badge-critical";
+
+
+    return `
+
+        <span class="badge ${cls}">
+
+            <span class="w-1.5 h-1.5 rounded-full bg-current"></span>
+
+            ${escapeHTML(risk)}
+
+        </span>
+
+    `;
+
+}
+
+
+/* =====================================================
+   PRIORITY
+===================================================== */
+
+function renderPriority() {
+
+    const container =
+        document.getElementById(
+            "priorityPatients"
+        );
+
+
+    const priority =
+        patients
+            .filter(
+                p =>
+                    p.risk === "Alto" ||
+                    p.risk === "Crítico"
+            )
+            .slice(0,4);
+
+
+    if (!priority.length) {
+
+        container.innerHTML = `
+
+            <div class="text-center py-10 text-sm text-slate-400">
+
+                No hay pacientes prioritarios.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        priority
+            .map(
+                patient => `
+
+                    <div
+                        onclick="openPatientDetail(${patient.id})"
+                        class="patient-row flex items-center justify-between py-4 border-b border-slate-100 last:border-0"
+                    >
+
+                        <div class="flex items-center gap-3">
+
+                            <div class="avatar ${avatarColor(patient.risk)}">
+                                ${getInitials(patient.name)}
+                            </div>
+
+                            <div>
+
+                                <div class="font-black text-sm">
+                                    ${escapeHTML(patient.name)}
+                                </div>
+
+                                <div class="text-[10px] text-slate-400 mt-1">
+                                    ${escapeHTML(patient.status)}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        ${riskBadge(patient.risk)}
+
+                    </div>
+
+                `
+            )
+            .join("");
+
+}
+
+
+/* =====================================================
+   PATIENT TABLE
+===================================================== */
+
+function renderPatients() {
+
+    const table =
+        document.getElementById(
+            "patientsTable"
+        );
+
+
+    const input =
+        document.getElementById(
+            "searchPatient"
+        );
+
+
+    const search =
+        (
+            input
+                ? input.value
+                : ""
+        )
+        .toLowerCase()
+        .trim();
+
+
+    const filtered =
+        patients.filter(
+            p =>
+                p.name
+                    .toLowerCase()
+                    .includes(search)
+                ||
+                p.document
+                    .includes(search)
+        );
+
+
+    if (!filtered.length) {
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="5"
+                    class="text-center py-16 text-sm text-slate-400"
+                >
+                    No se encontraron pacientes.
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    table.innerHTML =
+        filtered
+            .map(
+                patient => `
+
+                    <tr
+                        class="patient-row border-b border-slate-100"
+                        onclick="openPatientDetail(${patient.id})"
+                    >
+
+                        <td class="px-5 py-4">
+
+                            <div class="flex items-center gap-3">
+
+                                <div class="avatar ${avatarColor(patient.risk)}">
+                                    ${getInitials(patient.name)}
+                                </div>
+
+                                <div>
+
+                                    <div class="font-black text-sm">
+                                        ${escapeHTML(patient.name)}
+                                    </div>
+
+                                    <div class="text-[10px] text-slate-400 mt-1">
+                                        ${escapeHTML(patient.document)}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <td class="px-5 py-4 text-sm font-bold">
+                            ${patient.age}
+                        </td>
+
+
+                        <td class="px-5 py-4 text-xs text-slate-500">
+                            ${escapeHTML(patient.date)}
+                        </td>
+
+
+                        <td class="px-5 py-4">
+                            ${riskBadge(patient.risk)}
+                        </td>
+
+
+                        <td class="px-5 py-4 text-xs font-bold text-slate-500">
+                            ${escapeHTML(patient.status)}
+                        </td>
+
+                    </tr>
+
+                `
+            )
+            .join("");
+
+}
+
+
+/* =====================================================
+   RECENT
+===================================================== */
+
+function renderRecent() {
+
+    const recent =
+        patients.slice(0,4);
+
+
+    if (!recent.length)
+        return;
+
+}
+
+
+/* =====================================================
+   ADD PATIENT
+===================================================== */
+
+function openPatientModal() {
+
+    document
+        .getElementById(
+            "patientModal"
+        )
+        .style.display = "flex";
+
+}
+
+
+function closePatientModal() {
+
+    document
+        .getElementById(
+            "patientModal"
+        )
+        .style.display = "none";
+
+}
+
+
+function addPatient(event) {
+
+    event.preventDefault();
+
+
+    const name =
+        document
+            .getElementById(
+                "patientName"
+            )
+            .value
+            .trim();
+
+
+    const documentId =
+        document
+            .getElementById(
+                "patientDocument"
+            )
+            .value
+            .trim();
+
+
+    const age =
+        document
+            .getElementById(
+                "patientAge"
+            )
+            .value;
+
+
+    const risk =
+        document
+            .getElementById(
+                "patientRisk"
+            )
+            .value;
+
+
+    let status =
+        "Estable";
+
+
+    if (risk === "Medio")
+        status = "Seguimiento";
+
+
+    if (risk === "Alto")
+        status = "Prioritario";
+
+
+    if (risk === "Crítico")
+        status =
+            "Revisión inmediata";
+
+
+    const newPatient = {
+
+        id: Date.now(),
+
+        name,
+
+        document: documentId,
+
+        age: Number(age),
+
+        risk,
+
+        status,
+
+        date:
+            new Date()
+                .toLocaleDateString(
+                    "es-CO",
+                    {
+                        day:"2-digit",
+                        month:"short",
+                        year:"numeric"
+                    }
+                )
+
+    };
+
+
+    patients.unshift(
+        newPatient
+    );
+
+
+    savePatients();
+
+
+    document
+        .querySelector(
+            "#patientModal form"
+        )
+        .reset();
+
+
+    closePatientModal();
+
+
+    updateStats();
+
+    renderPatients();
+
+    renderPriority();
+
+    renderRecords();
+
+    showPageByName(
+        "patients"
+    );
+
+}
+
+
+/* =====================================================
+   RECORDS
+===================================================== */
+
+function renderRecords() {
+
+    const container =
+        document.getElementById(
+            "recordsPatientList"
+        );
+
+
+    if (!container)
+        return;
+
+
+    const count =
+        document.getElementById(
+            "recordsCount"
+        );
+
+
+    if (count)
+        count.textContent =
+            patients.length;
+
+
+    container.innerHTML =
+        patients
+            .map(
+                patient => `
+
+                    <button
+                        onclick="openRecord(${patient.id})"
+                        class="w-full text-left p-3 rounded-xl hover:bg-slate-50 transition flex items-center gap-3"
+                    >
+
+                        <div class="avatar ${avatarColor(patient.risk)}">
+                            ${getInitials(patient.name)}
+                        </div>
+
+                        <div class="flex-1">
+
+                            <div class="font-black text-xs">
+                                ${escapeHTML(patient.name)}
+                            </div>
+
+                            <div class="text-[9px] text-slate-400 mt-1">
+                                Expediente #${patient.id}
+                            </div>
+
+                        </div>
+
+                        ${riskBadge(patient.risk)}
+
+                    </button>
+
+                `
+            )
+            .join("");
+
+}
+
+
+function openRecord(id) {
+
+    const patient =
+        patients.find(
+            p => p.id === id
+        );
+
+
+    if (!patient)
+        return;
+
+
+    const viewer =
+        document.getElementById(
+            "recordViewer"
+        );
+
+
+    viewer.innerHTML = `
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+
+            <div class="flex items-center gap-4">
+
+                <div class="avatar w-14 h-14 ${avatarColor(patient.risk)} text-base">
+                    ${getInitials(patient.name)}
+                </div>
+
+                <div>
+
+                    <div class="text-[9px] uppercase tracking-widest text-indigo-600 font-black">
+                        Expediente #${patient.id}
+                    </div>
+
+                    <h2 class="text-xl font-black mt-1">
+                        ${escapeHTML(patient.name)}
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            ${riskBadge(patient.risk)}
+
+        </div>
+
+
+
+        <div class="grid sm:grid-cols-3 gap-3 mt-7">
+
+
+            <div class="bg-slate-50 rounded-2xl p-4">
+
+                <div class="text-[9px] uppercase tracking-widest text-slate-400 font-black">
+                    Edad
+                </div>
+
+                <div class="font-black mt-2">
+                    ${patient.age} años
+                </div>
+
+            </div>
+
+
+            <div class="bg-slate-50 rounded-2xl p-4">
+
+                <div class="text-[9px] uppercase tracking-widest text-slate-400 font-black">
+                    Estado
+                </div>
+
+                <div class="font-black mt-2 text-sm">
+                    ${escapeHTML(patient.status)}
+                </div>
+
+            </div>
+
+
+            <div class="bg-slate-50 rounded-2xl p-4">
+
+                <div class="text-[9px] uppercase tracking-widest text-slate-400 font-black">
+                    Última revisión
+                </div>
+
+                <div class="font-black mt-2 text-sm">
+                    ${escapeHTML(patient.date)}
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="mt-8">
+
+            <div class="text-[9px] uppercase tracking-widest text-slate-400 font-black mb-5">
+                Historial
+            </div>
+
+
+            <div class="timeline">
+
+
+                <div class="timeline-item">
+
+                    <div class="timeline-dot"></div>
+
+                    <div class="text-[10px] text-slate-400">
+                        ${escapeHTML(patient.date)}
+                    </div>
+
+                    <div class="font-black text-sm mt-1">
+                        Registro actualizado
+                    </div>
+
+                    <p class="text-xs text-slate-500 mt-1 leading-5">
+                        Se actualizó el estado de seguimiento
+                        del expediente.
+                    </p>
+
+                </div>
+
+
+
+                <div class="timeline-item">
+
+                    <div class="timeline-dot"></div>
+
+                    <div class="text-[10px] text-slate-400">
+                        Registro inicial
+                    </div>
+
+                    <div class="font-black text-sm mt-1">
+                        Paciente creado
+                    </div>
+
+                    <p class="text-xs text-slate-500 mt-1 leading-5">
+                        Se creó el expediente dentro de SADERS.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <div class="bg-indigo-50 border border-indigo-100 rounded-2xl p-4 mt-4">
+
+            <div class="flex gap-3">
+
+                <div class="text-indigo-600">
+                    ✦
+                </div>
+
+                <div>
+
+                    <div class="text-xs font-black text-indigo-800">
+                        Próximamente
+                    </div>
+
+                    <p class="text-[10px] text-indigo-700 mt-1 leading-5">
+                        Este expediente podrá conectarse
+                        directamente con el analizador SADERS
+                        y el historial de análisis.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   PATIENT DETAIL
+===================================================== */
+
+function openPatientDetail(id) {
+
+    const patient =
+        patients.find(
+            p => p.id === id
+        );
+
+
+    if (!patient)
+        return;
+
+
+    document
+        .getElementById(
+            "patientDetail"
+        )
+        .innerHTML = `
+
+            <div class="flex justify-between items-start">
+
+                <div class="flex items-center gap-4">
+
+                    <div class="avatar w-14 h-14 ${avatarColor(patient.risk)} text-base">
+                        ${getInitials(patient.name)}
+                    </div>
+
+                    <div>
+
+                        <div class="text-[9px] uppercase tracking-widest text-blue-600 font-black">
+                            Paciente
+                        </div>
+
+                        <h2 class="text-2xl font-black mt-1">
+                            ${escapeHTML(patient.name)}
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    onclick="closePatientDetail()"
+                    class="w-9 h-9 rounded-xl bg-slate-100 font-black"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+
+            <div class="grid grid-cols-2 gap-3 mt-7">
+
+                <div class="bg-slate-50 rounded-2xl p-4">
+
+                    <div class="text-[9px] uppercase tracking-widest text-slate-400 font-black">
+                        Documento
+                    </div>
+
+                    <div class="font-black text-sm mt-2">
+                        ${escapeHTML(patient.document)}
+                    </div>
+
+                </div>
+
+
+                <div class="bg-slate-50 rounded-2xl p-4">
+
+                    <div class="text-[9px] uppercase tracking-widest text-slate-400 font-black">
+                        Edad
+                    </div>
+
+                    <div class="font-black text-sm mt-2">
+                        ${patient.age} años
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="border border-slate-200 rounded-2xl p-5 mt-4">
+
+                <div class="flex justify-between items-center">
+
+                    <div>
+
+                        <div class="text-[9px] uppercase tracking-widest text-slate-400 font-black">
+                            Seguimiento
+                        </div>
+
+                        <div class="font-black text-lg mt-1">
+                            ${escapeHTML(patient.status)}
+                        </div>
+
+                    </div>
+
+                    ${riskBadge(patient.risk)}
+
+                </div>
+
+            </div>
+
+
+
+            <div class="grid grid-cols-2 gap-3 mt-4">
+
+
+                <button
+                    onclick="showPageByName('records'); closePatientDetail(); setTimeout(()=>openRecord(${patient.id}),100)"
+                    class="p-4 rounded-2xl bg-indigo-50 text-indigo-700 text-left"
+                >
+
+                    <div class="font-black text-sm">
+                        📁 Expediente
+                    </div>
+
+                    <div class="text-[10px] mt-1">
+                        Ver historial
+                    </div>
+
+                </button>
+
+
+                <button
+                    onclick="showPageByName('ai'); closePatientDetail();"
+                    class="p-4 rounded-2xl bg-blue-50 text-blue-700 text-left"
+                >
+
+                    <div class="font-black text-sm">
+                        ✦ SADERS IA
+                    </div>
+
+                    <div class="text-[10px] mt-1">
+                        Consultar asistente
+                    </div>
+
+                </button>
+
+            </div>
+
+
+
+            <div class="flex justify-end mt-6">
+
+                <button
+                    onclick="closePatientDetail()"
+                    class="px-5 py-3 rounded-xl bg-slate-950 text-white text-xs font-black"
+                >
+                    Cerrar
+                </button>
+
+            </div>
+
+        `;
+
+
+    document
+        .getElementById(
+            "patientDetailModal"
+        )
+        .style.display = "flex";
+
+}
+
+
+function closePatientDetail() {
+
+    document
+        .getElementById(
+            "patientDetailModal"
+        )
+        .style.display = "none";
+
+}
+
+
+/* =====================================================
+   AI CHAT
+===================================================== */
+
+function handleChatKey(event) {
+
+    if (
+        event.key === "Enter" &&
+        !event.shiftKey
+    ) {
+
+        event.preventDefault();
+
+        sendMessage();
+
+    }
+
+}
+
+
+function addChatMessage(
+    text,
+    type
+) {
+
+    const container =
+        document.getElementById(
+            "chatMessages"
+        );
+
+
+    const message =
+        document.createElement(
+            "div"
+        );
+
+
+    message.className =
+        type === "user"
+            ? "chat-user mb-4"
+            : "chat-ai mb-4";
+
+
+    message.innerHTML =
+        escapeHTML(text)
+            .replace(
+                /\n/g,
+                "<br>"
+            );
+
+
+    container.appendChild(
+        message
+    );
+
+
+    container.scrollTop =
+        container.scrollHeight;
+
+}
+
+
+async function sendMessage() {
+
+    const input =
+        document.getElementById(
+            "chatInput"
+        );
+
+
+    const text =
+        input.value.trim();
+
+
+    if (!text)
+        return;
+
+
+    addChatMessage(
+        text,
+        "user"
+    );
+
+
+    input.value = "";
+
+
+    const loading =
+        document.createElement(
+            "div"
+        );
+
+
+    loading.className =
+        "chat-ai mb-4";
+
+
+    loading.innerHTML = `
+
+        <div class="flex items-center gap-2">
+
+            <span class="ai-dot"></span>
+
+            <span class="ai-dot" style="animation-delay:.2s"></span>
+
+            <span class="ai-dot" style="animation-delay:.4s"></span>
+
+            <span class="text-xs text-slate-400 ml-1">
+                SADERS IA está pensando...
+            </span>
+
+        </div>
+
+    `;
+
+
+    const container =
+        document.getElementById(
+            "chatMessages"
+        );
+
+
+    container.appendChild(
+        loading
+    );
+
+
+    container.scrollTop =
+        container.scrollHeight;
+
+
+    try {
+
+        /*
+        ====================================================
+        API
+
+        TU BACKEND DEBE EXPONER:
+
+        POST /api/chat
+
+        BODY:
+
+        {
+            "message": "texto del usuario"
+        }
+
+        RESPUESTA:
+
+        {
+            "reply": "respuesta del bot"
+        }
+
+        IMPORTANTE:
+        NO pongas tu API KEY aquí.
+        La API KEY debe vivir en tu backend.
+        ====================================================
+        */
+
+
+        const response =
+            await fetch(
+                "/api/chat",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            message: text
+                        })
+
+                }
+            );
+
+
+        if (!response.ok)
+            throw new Error(
+                "API unavailable"
+            );
+
+
+        const data =
+            await response.json();
+
+
+        loading.remove();
+
+
+        addChatMessage(
+            data.reply ||
+            "La API no devolvió una respuesta.",
+            "ai"
+        );
+
+
+    } catch(error) {
+
+        loading.remove();
+
+
+        let reply =
+            "Modo demostración activo. ";
+
+
+        if (
+            text
+                .toLowerCase()
+                .includes("paciente")
+        ) {
+
+            reply +=
+                "Puedes consultar los pacientes desde el módulo Pacientes y revisar su historial desde Expedientes.";
+
+        }
+
+        else if (
+            text
+                .toLowerCase()
+                .includes("expediente")
+        ) {
+
+            reply +=
+                "El módulo Expedientes permite visualizar información, seguimiento y actividad registrada.";
+
+        }
+
+        else {
+
+            reply +=
+                "Cuando conectes tu backend en /api/chat, este módulo podrá utilizar el modelo de IA que tú elijas.";
+
+        }
+
+
+        addChatMessage(
+            reply,
+            "ai"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   STORAGE
+===================================================== */
+
+function savePatients() {
+
+    localStorage.setItem(
+        "saders_patients",
+        JSON.stringify(
+            patients
+        )
+    );
+
+}
+
+
+/* =====================================================
+   SECURITY HELPER
+===================================================== */
+
+function escapeHTML(text) {
+
+    return String(text)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+/*
+   Ya NO usamos window.load para decidir si mostrar
+   el login.
+
+   La sesión se detectó arriba del documento,
+   antes de renderizar la interfaz.
+
+   Aquí solamente inicializamos la aplicación
+   si ya existe una sesión.
+*/
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        const user =
+            localStorage.getItem(
+                "saders_user"
+            );
+
+
+        if (user) {
+
+            initializeApp();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
